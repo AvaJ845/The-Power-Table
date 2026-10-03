@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="The Power Table tracks 14 public companies with their latest prices and daily changes.">
+  <meta name="description" content="The Power Table tracks two baskets — 14 companies from the Trump AI dinner and 14 semiconductor names — with latest prices, daily changes, and multi-year gains.">
   <meta name="application-name" content="The Power Table">
   <meta name="referrer" content="no-referrer">
   <meta name="color-scheme" content="dark light">
@@ -35,6 +35,7 @@
     .widget-host{display:none;min-height:680px;padding:14px;background:var(--surface-solid)}.tracker-shell.loaded .consent{display:none}.tracker-shell.loaded .widget-host{display:block}.tracker-toolbar{display:none;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;border-top:1px solid var(--line);background:var(--surface-solid);color:var(--muted);font-size:11px}.tracker-shell.loaded .tracker-toolbar{display:flex}.tracker-toolbar button{min-height:36px;padding:0 11px}.loading{min-height:650px;display:grid;place-items:center;color:var(--muted);font-size:13px}
     .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.trust article{padding:22px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface)}.trust svg{width:22px;color:var(--accent)}.trust b{display:block;margin-top:16px;font-size:14px}.trust p{margin:6px 0 0;color:var(--muted);font-size:12px}.disclaimer{display:flex;align-items:flex-start;gap:14px;padding:22px 24px;margin-top:14px;border:1px solid color-mix(in srgb,var(--gold) 32%,var(--line));border-radius:var(--radius-sm);background:color-mix(in srgb,var(--gold) 7%,var(--surface));color:var(--sub);font-size:12px}.disclaimer strong{display:block;color:var(--text);margin-bottom:3px}.symbol{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold);flex:none;font-weight:850}
     footer{display:flex;justify-content:space-between;gap:30px;padding:34px 0 54px;margin-top:34px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.footer-brand{color:var(--sub);font-weight:760}.toast{position:fixed;left:50%;bottom:28px;z-index:30;transform:translate(-50%,24px);padding:11px 15px;border:1px solid var(--line-strong);border-radius:12px;background:var(--text);color:var(--bg);box-shadow:var(--shadow);font-size:12px;font-weight:720;opacity:0;pointer-events:none;transition:.22s}.toast.show{opacity:1;transform:translate(-50%,0)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .gains{overflow-x:auto}.gains table{width:100%;border-collapse:collapse;font-size:13px}.gains th,.gains td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}.gains tbody tr:last-child td{border-bottom:0}.gains th{color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.gains td:last-child,.gains th:last-child{text-align:right}.gains .gain{color:var(--accent);font-weight:760;font-variant-numeric:tabular-nums}.gains-note{padding:14px 20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
     @supports not (backdrop-filter:blur(1px)){.topbar,.panel{background:var(--surface-solid)}}
     @media(max-width:760px){.wrap{width:min(100% - 24px,1120px)}.topbar{height:64px}.brand span{font-size:14px}.hero{padding:58px 0 32px}h1{font-size:clamp(50px,17vw,76px)}.section{padding:32px 0}.section-head{align-items:flex-start;flex-direction:column}.company-grid{grid-template-columns:1fr}.consent-head,.consent-foot{align-items:stretch;flex-direction:column}.consent{padding:18px}.tracker-shell,.consent{min-height:900px}.widget-host{min-height:760px;padding:8px}.trust{grid-template-columns:1fr}footer{flex-direction:column}.nav-actions .ghost-btn{display:none}}
     @media(max-width:390px){.hero-actions{align-items:stretch;flex-direction:column}.hero-actions .primary-btn{width:100%}}
@@ -60,12 +61,12 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="eyebrow">Company tracker</div>
         <h1 id="hero-title">The companies.<br><span class="accent">The moves.</span></h1>
-        <p class="lede">Track the latest prices and today’s changes for the 14 public companies at The Power Table. Nothing extra competing for attention.</p>
+        <p class="lede">Track the latest prices and today’s changes for two baskets — the 14 companies at The Power Table and 14 semiconductor names — with multi-year gains for the chip basket. Nothing extra competing for attention.</p>
         <div class="hero-actions">
           <button class="primary-btn" id="heroLoad" type="button">Show prices &amp; changes</button>
           <span class="note">Quotes may be delayed.</span>
         </div>
-        <div class="count" aria-label="14 companies tracked"><i aria-hidden="true"></i><b>14</b> companies tracked</div>
+        <div class="count" aria-label="28 companies tracked"><i aria-hidden="true"></i><b id="companyCount">28</b> companies across two baskets</div>
       </section>
 
       <section class="section" id="companies" aria-labelledby="companies-title">
@@ -89,6 +90,17 @@
         </div>
       </section>
 
+      <section class="section" id="semiconductors" aria-labelledby="semis-title">
+        <div class="section-head">
+          <div><span class="kicker">Also tracked</span><h2 id="semis-title">The semiconductor basket</h2><p>Two-year percentage gains for 14 chip and memory names. All 14 were positive over the last 1, 2, and 3 years.</p></div>
+          <div class="status live"><span class="status-dot" aria-hidden="true"></span><span>14 of 14 up</span></div>
+        </div>
+        <div class="panel">
+          <div class="gains"><table aria-label="Semiconductor basket two-year gains"><thead><tr><th scope="col">Company</th><th scope="col">Ticker</th><th scope="col">2-yr gain</th></tr></thead><tbody id="gainsBody"></tbody></table></div>
+          <div class="gains-note">Two-year percentage gains. Live prices and daily changes for these names load with quotes above, under the Semiconductors tab.</div>
+        </div>
+      </section>
+
       <section class="section" aria-labelledby="trust-title">
         <div class="section-head"><div><span class="kicker">Straightforward by design</span><h2 id="trust-title">Only what helps you track</h2><p>A focused view of the companies, with clear boundaries around market data.</p></div></div>
         <div class="trust">
@@ -100,7 +112,7 @@
       </section>
     </main>
 
-    <footer><span><span class="footer-brand">The Power Table</span> · Fourteen companies, clearly tracked.</span><span>Market data, when loaded, is supplied by TradingView and may be delayed.</span></footer>
+    <footer><span><span class="footer-brand">The Power Table</span> · Two baskets, clearly tracked.</span><span>Market data, when loaded, is supplied by TradingView and may be delayed.</span></footer>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
@@ -120,8 +132,27 @@
       {d:'Micron Technology',s:'NASDAQ:MU',t:'MU'},
       {d:'JPMorgan Chase',s:'NYSE:JPM',t:'JPM'}
     ];
+    const semis=[
+      {d:'Sandisk',s:'NASDAQ:SNDK',t:'SNDK',g:'+4,690%'},
+      {d:'Lumentum',s:'NASDAQ:LITE',t:'LITE',g:'+1,664%'},
+      {d:'Advanced Micro Devices',s:'NASDAQ:AMD',t:'AMD',g:'+295%'},
+      {d:'Dell Technologies',s:'NYSE:DELL',t:'DELL',g:'+416%'},
+      {d:'Intel',s:'NASDAQ:INTC',t:'INTC',g:'+429%'},
+      {d:'Seagate',s:'NASDAQ:STX',t:'STX',g:'+711%'},
+      {d:'Marvell',s:'NASDAQ:MRVL',t:'MRVL',g:'+290%'},
+      {d:'Western Digital',s:'NASDAQ:WDC',t:'WDC',g:'+741%'},
+      {d:'Teradyne',s:'NASDAQ:TER',t:'TER',g:'+250%'},
+      {d:'Applied Materials',s:'NASDAQ:AMAT',t:'AMAT',g:'+177%'},
+      {d:'Lam Research',s:'NASDAQ:LRCX',t:'LRCX',g:'+343%'},
+      {d:'Taiwan Semiconductor',s:'NYSE:TSM',t:'TSM',g:'+180%'},
+      {d:'iShares Semiconductor ETF',s:'NASDAQ:SOXX',t:'SOXX',g:'+165%'},
+      {d:'VanEck Semiconductor ETF',s:'NASDAQ:SMH',t:'SMH',g:'+160%'}
+    ];
     const esc=value=>String(value).replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m]));
-    document.getElementById('companyGrid').innerHTML=companies.map(c=>`<div class="company-card"><div class="company-name"><b>${esc(c.d)}</b><span>Public company</span></div><span class="ticker">${esc(c.t)}</span></div>`).join('');
+    const card=(c,tag)=>`<div class="company-card"><div class="company-name"><b>${esc(c.d)}</b><span>${tag}</span></div><span class="ticker">${esc(c.t)}</span></div>`;
+    document.getElementById('companyGrid').innerHTML=companies.map(c=>card(c,'Public company · The Power Table')).join('')+semis.map(c=>card(c,'Semiconductor basket')).join('');
+    document.getElementById('companyCount').textContent=companies.length+semis.length;
+    document.getElementById('gainsBody').innerHTML=semis.map(c=>`<tr><td>${esc(c.d)}</td><td><span class="ticker">${esc(c.t)}</span></td><td class="gain">${esc(c.g)}</td></tr>`).join('');
 
     const root=document.documentElement,themeBtn=document.getElementById('themeBtn');
     try{const saved=localStorage.getItem('power-table-theme');if(saved)root.dataset.theme=saved;else if(matchMedia('(prefers-color-scheme:light)').matches)root.dataset.theme='light'}catch(e){}
@@ -139,7 +170,7 @@
       const script=document.createElement('script');script.src='https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js';script.async=true;script.referrerPolicy='no-referrer';
       script.addEventListener('load',()=>setStatus(true,'Quotes on'));
       script.addEventListener('error',()=>{setStatus(false,'Quotes unavailable');document.getElementById('quoteStatus').textContent='The quote provider could not be reached. Turn quotes off and try again later.';host.innerHTML='<div class="loading">Live quotes are unavailable right now.</div>'});
-      script.textContent=JSON.stringify({title:'The Power Table',tabs:[{title:'Companies',symbols:companies.map(({s,d})=>({s,d}))}],width:'100%',height:720,showChart:false,showSymbolLogo:true,isTransparent:true,colorTheme:root.dataset.theme==='light'?'light':'dark',locale:'en'});
+      script.textContent=JSON.stringify({title:'The Power Table',tabs:[{title:'The Power Table',symbols:companies.map(({s,d})=>({s,d}))},{title:'Semiconductors',symbols:semis.map(({s,d})=>({s,d}))}],width:'100%',height:720,showChart:false,showSymbolLogo:true,isTransparent:true,colorTheme:root.dataset.theme==='light'?'light':'dark',locale:'en'});
       container.append(widget,script);host.replaceChildren(container);
       document.getElementById('companies').scrollIntoView({behavior:'smooth',block:'start'});
     }
@@ -149,7 +180,7 @@
 
     function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2200)}
     async function copyLink(){try{await navigator.clipboard.writeText(location.href);toast('Link copied')}catch(e){const input=document.createElement('textarea');input.value=location.href;input.style.position='fixed';input.style.opacity='0';document.body.append(input);input.select();const ok=document.execCommand('copy');input.remove();toast(ok?'Link copied':'Copy unavailable')}}
-    document.getElementById('shareBtn').addEventListener('click',async()=>{const data={title:'The Power Table',text:'Track 14 public companies in one focused view. A record of the past — not a prediction, never financial advice.',url:location.href};try{if(navigator.share)await navigator.share(data);else await copyLink()}catch(e){if(e.name!=='AbortError')await copyLink()}});
+    document.getElementById('shareBtn').addEventListener('click',async()=>{const data={title:'The Power Table',text:'Track two company baskets in one focused view. A record of the past — not a prediction, never financial advice.',url:location.href};try{if(navigator.share)await navigator.share(data);else await copyLink()}catch(e){if(e.name!=='AbortError')await copyLink()}});
   </script>
 </body>
 </html>
